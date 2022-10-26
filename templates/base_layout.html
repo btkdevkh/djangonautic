@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <title>Django | {{ title }}</title>
+</head>
+<body>
+  <header class="wrapper">
+    <h1><a href="{% url 'home' %}"><img class="logo" src="{% static 'django.png' %}" /></a></h1>
+    <nav>
+      <ul>
+        {% if user.is_authenticated %}
+        <li>
+          <form class="logout-link" action="/accounts/logout/" method="POST">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+          </form>
+        </li>
+        <li>
+          <a href="/articles/create/">
+            <button type="submit" class="highlight">Create</button>
+          </a>
+        </li>
+        {% else %}
+          <li>
+            <a href="/accounts/login/">
+              <button type="submit">Login</button>
+            </a>
+          </li>
+          <li>
+            <a href="/accounts/signup/">
+              <button type="submit">Signup</button>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  
+  <div class="wrapper">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <script src="/static/main.js"></script>
+</body>
+</html>
